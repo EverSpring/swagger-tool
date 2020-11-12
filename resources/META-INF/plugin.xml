@@ -1,0 +1,33 @@
+<idea-plugin>
+  <id>com.everspring.plugin.swagger-tool</id>
+  <name>swagger-annoation-tool</name>
+  <version>1.0</version>
+  <vendor email="xuechangchun007@126.com" url="https://github.com/EverSpring">changchun</vendor>
+
+  <description>springfox-swagger转换工具,注解转注释，当前只支持model里的</description>
+
+  <change-notes><![CDATA[
+      1.swagger中注解转换成@ApiModelProperty.<br>
+      <em>swagger,注解,注释</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="173.0" until-build="202.7660.26"/>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+    <action id="plugin.SwaggerTool" class="com.everspring.CommentTool" text="swagger-tool" description="注释转swagger注解">
+      <add-to-group group-id="HelpMenu" anchor="last"/>
+    </action>
+  </actions>
+
+</idea-plugin>
