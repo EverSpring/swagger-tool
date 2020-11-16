@@ -17,7 +17,7 @@
 
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
-  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.java</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
@@ -25,8 +25,9 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="plugin.SwaggerTool" class="com.everspring.CommentTool" text="swagger-tool" description="注释转swagger注解">
-      <add-to-group group-id="HelpMenu" anchor="last"/>
+    <action id="plugin.rightClick" class="com.everspring.action.RightClickTransformAction" text="转换swagger"
+            description="右键转换成@ApiModelProperty">
+      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
     </action>
   </actions>
 
