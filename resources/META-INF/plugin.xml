@@ -1,12 +1,14 @@
 <idea-plugin>
   <id>com.everspring.plugin.swagger-tool</id>
   <name>swagger-annotation-tool</name>
-  <version>1.2</version>
+  <version>1.2.1</version>
   <vendor email="xuechangchun007@126.com" url="https://github.com/EverSpring">changchun</vendor>
 
   <description>springfox-swagger tool,注解转注释，转换model里的，接口上的字段一般比较少，个人觉得没有自动生成的必要</description>
 
   <change-notes><![CDATA[
+      v1.2.1 support transform single line comment to @ApiModelProperty<br>
+      v1.2.1 添加当行注解转换<br><br>
       v1.2 In if there is no comment,will translator field first,then generate the annotation<br>
       v1.2 增加没有注解，自动根据字段名翻译，建议字段名取得易读<br><br>
       v1.1 In the model,transform comment(/** xx */) to springfox-swagger @ApiModelProperty<br>

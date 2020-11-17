@@ -100,9 +100,23 @@ public abstract class AbstractTransformAction extends AnAction {
                             this.write(project, psiElement, psiField, text);
                         }
                     }
-                } else if(isTranslator){
-                    String text = translatorService.translate(name);
-                    this.write(project, psiElement, psiField, text);
+                } else {
+                    // 获取单行注释的内容
+                    String allText = psiField.getText();
+                    String comment = "";
+                    String[] split = allText.split("\n");
+                    for (String s : split) {
+                        if (s.contains("//")) {
+                            comment = s.substring(s.indexOf("//") + 2, s.length() - 1);
+                            continue;
+                        }
+                    }
+                    if (StringUtils.isNotBlank(comment)) {
+                        this.write(project, psiElement, psiField, comment.trim());
+                    } else if (isTranslator) {
+                        String text = translatorService.translate(name);
+                        this.write(project, psiElement, psiField, text);
+                    }
                 }
             }
         }
