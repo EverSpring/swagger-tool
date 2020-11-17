@@ -42,83 +42,107 @@ public class RightClickTransformAction extends AnAction {
         boolean wasImport = false;
         for (PsiElement child : children) {
             //判断是否import
-            if (child instanceof PsiImportList) {
-                PsiImportList psiImportList = (PsiImportList) child;
-                PsiElement[] importList = child.getChildren();
-                for (PsiElement importEle : importList) {
-                    if (importEle.getText().contains("io.swagger.annotations.ApiModelProperty")) {
-                        wasImport = true;
-                        break;
-                    }
-                }
-                if (!wasImport) {
-                    PsiImportStatement importStatement = factory.createImportStatementOnDemand("io.swagger.annotations");
-                    try {
-                        WriteCommandAction.writeCommandAction(project).run(
-                                (ThrowableRunnable<Throwable>) () -> {
-                                    if (child.getContainingFile() == null) {
-                                        return;
-                                    }
-                                    // 写入import
-                                    psiImportList.add(importStatement);
-                                });
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                    wasImport = true;
-                }
-            }
+            wasImport = this.importClass(project, factory, wasImport, child);
 
             //获取java正式内容
             if (!(child instanceof PsiClass)) {
                 continue;
             }
-            PsiElement[] clsEle = child.getChildren();
-            for (PsiElement psiElement : clsEle) {
-                if (!(psiElement instanceof PsiField)) {
-                    continue;
-                }
-                PsiField psiField = (PsiField) psiElement;
-                String name = psiField.getName();
-                PsiDocComment docComment = psiField.getDocComment();
-                if (docComment != null && docComment.getText() != null && docComment.getText().trim() != "") {
-                    boolean hasSwaggerAnnotation = false;
-                    PsiAnnotation[] annotations = psiField.getAnnotations();
-                    for (PsiAnnotation annotation : annotations) {
-                        String qualifiedName = annotation.getQualifiedName();
-                        if ("io.swagger.annotations.ApiModelProperty".equals(qualifiedName)) {
-                            //已经有这个注解就跳过
-                            hasSwaggerAnnotation = true;
-                            continue;
-                        }
+            generateAnnotation(project, child);
+            break;
+        }
+    }
+
+    /**
+     * 生成注释
+     *
+     * @param project
+     * @param child
+     */
+    private void generateAnnotation(Project project, PsiElement child) {
+        PsiElement[] clsEle = child.getChildren();
+        for (PsiElement psiElement : clsEle) {
+            if (!(psiElement instanceof PsiField)) {
+                continue;
+            }
+            PsiField psiField = (PsiField) psiElement;
+            String name = psiField.getName();
+            PsiDocComment docComment = psiField.getDocComment();
+            if (docComment != null && docComment.getText() != null && docComment.getText().trim() != "") {
+                boolean hasSwaggerAnnotation = false;
+                PsiAnnotation[] annotations = psiField.getAnnotations();
+                for (PsiAnnotation annotation : annotations) {
+                    String qualifiedName = annotation.getQualifiedName();
+                    if ("io.swagger.annotations.ApiModelProperty".equals(qualifiedName)) {
+                        //已经有这个注解就跳过
+                        hasSwaggerAnnotation = true;
+                        continue;
                     }
-                    if (!hasSwaggerAnnotation) {
-                        //没有swagger注解，获取注释内容，生成注解
-                        PsiElement[] descriptionElements = docComment.getDescriptionElements();
-                        for (PsiElement desc : descriptionElements) {
-                            String text = desc.getText();
-                            if (text != null && !"".equals(text.trim())) {
-                                PsiAnnotation annotation = factory.createAnnotationFromText(String.format("@ApiModelProperty(\"%s\")", text.trim()), psiField);
-                                try {
-                                    WriteCommandAction.writeCommandAction(project).run(
-                                            (ThrowableRunnable<Throwable>) () -> {
-                                                if (psiElement.getContainingFile() == null) {
-                                                    return;
-                                                }
+                }
+                if (!hasSwaggerAnnotation) {
+                    //没有swagger注解，获取注释内容，生成注解
+                    PsiElement[] descriptionElements = docComment.getDescriptionElements();
+                    for (PsiElement desc : descriptionElements) {
+                        String text = desc.getText();
+                        if (text != null && !"".equals(text.trim())) {
+                            try {
+                                WriteCommandAction.writeCommandAction(project).run(
+                                        (ThrowableRunnable<Throwable>) () -> {
+                                            if (psiElement.getContainingFile() == null) {
+                                                return;
+                                            }
 
-                                                // 写入注解
-                                                psiField.getModifierList().addAnnotation(String.format("ApiModelProperty(\"%s\")", text.trim()));
+                                            // 写入注解
+                                            psiField.getModifierList().addAnnotation(String.format("ApiModelProperty(\"%s\")", text.trim()));
 
-                                            });
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
+                                        });
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
                             }
                         }
                     }
                 }
             }
-            break;
         }
+    }
+
+
+    /**
+     * 导入class
+     *
+     * @param project
+     * @param factory
+     * @param wasImport
+     * @param child
+     * @return boolean
+     */
+    private boolean importClass(Project project, PsiElementFactory factory, boolean wasImport, PsiElement child) {
+        if (child instanceof PsiImportList) {
+            PsiImportList psiImportList = (PsiImportList) child;
+            PsiElement[] importList = child.getChildren();
+            for (PsiElement importEle : importList) {
+                if (importEle.getText().contains("io.swagger.annotations.ApiModelProperty")) {
+                    wasImport = true;
+                    break;
+                }
+            }
+            if (!wasImport) {
+                PsiImportStatement importStatement = factory.createImportStatementOnDemand("io.swagger.annotations");
+                try {
+                    WriteCommandAction.writeCommandAction(project).run(
+                            (ThrowableRunnable<Throwable>) () -> {
+                                if (child.getContainingFile() == null) {
+                                    return;
+                                }
+                                // 写入import
+                                psiImportList.add(importStatement);
+                            });
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+                wasImport = true;
+            }
+        }
+        return wasImport;
     }
 }
