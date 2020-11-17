@@ -80,19 +80,19 @@ public abstract class AbstractTransformAction extends AnAction {
             PsiField psiField = (PsiField) psiElement;
             String name = psiField.getName();
             PsiDocComment docComment = psiField.getDocComment();
-            if (docComment != null && StringUtils.isNotBlank(docComment.getText().trim())) {
-                boolean hasSwaggerAnnotation = false;
-                PsiAnnotation[] annotations = psiField.getAnnotations();
-                for (PsiAnnotation annotation : annotations) {
-                    String qualifiedName = annotation.getQualifiedName();
-                    if ("io.swagger.annotations.ApiModelProperty".equals(qualifiedName)) {
-                        //已经有这个注解就跳过
-                        hasSwaggerAnnotation = true;
-                        continue;
-                    }
+            boolean hasSwaggerAnnotation = false;
+            PsiAnnotation[] annotations = psiField.getAnnotations();
+            for (PsiAnnotation annotation : annotations) {
+                String qualifiedName = annotation.getQualifiedName();
+                if ("io.swagger.annotations.ApiModelProperty".equals(qualifiedName)) {
+                    //已经有这个注解就跳过
+                    hasSwaggerAnnotation = true;
+                    continue;
                 }
-                if (!hasSwaggerAnnotation) {
-                    //没有swagger注解，获取注释内容，生成注解
+            }
+            if (!hasSwaggerAnnotation) {
+                //没有swagger注解，获取注释内容，生成注解
+                if (docComment != null && StringUtils.isNotBlank(docComment.getText().trim())) {
                     PsiElement[] descriptionElements = docComment.getDescriptionElements();
                     for (PsiElement desc : descriptionElements) {
                         String text = desc.getText();
@@ -100,10 +100,10 @@ public abstract class AbstractTransformAction extends AnAction {
                             this.write(project, psiElement, psiField, text);
                         }
                     }
+                } else if(isTranslator){
+                    String text = translatorService.translate(name);
+                    this.write(project, psiElement, psiField, text);
                 }
-            } else if(isTranslator){
-                String text = translatorService.translate(name);
-                this.write(project, psiElement, psiField, text);
             }
         }
     }
