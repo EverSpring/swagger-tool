@@ -37,18 +37,18 @@ public class RightClickTransformAction extends AnAction {
         //获取java文件
         PsiElement referenceAt = psiFile.findElementAt(editor.getCaretModel().getOffset());
         PsiJavaFile psiJavaFile = PsiTreeUtil.getParentOfType(referenceAt, PsiJavaFile.class);
-        PsiElement[] children = psiJavaFile.getChildren();
+        PsiElement[] allElement = psiJavaFile.getChildren();
         PsiElementFactory factory = PsiElementFactory.SERVICE.getInstance(project);
         boolean wasImport = false;
-        for (PsiElement child : children) {
+        for (PsiElement everyTypeElement : allElement) {
             //判断是否import
-            wasImport = this.importClass(project, factory, wasImport, child);
+            wasImport = this.importClass(project, factory, wasImport, everyTypeElement);
 
             //获取java正式内容
-            if (!(child instanceof PsiClass)) {
+            if (!(everyTypeElement instanceof PsiClass)) {
                 continue;
             }
-            generateAnnotation(project, child);
+            this.generateAnnotation(project, everyTypeElement);
             break;
         }
     }
@@ -57,10 +57,10 @@ public class RightClickTransformAction extends AnAction {
      * 生成注释
      *
      * @param project
-     * @param child
+     * @param everyTypeElement 具体的class代码element
      */
-    private void generateAnnotation(Project project, PsiElement child) {
-        PsiElement[] clsEle = child.getChildren();
+    private void generateAnnotation(Project project, PsiElement everyTypeElement) {
+        PsiElement[] clsEle = everyTypeElement.getChildren();
         for (PsiElement psiElement : clsEle) {
             if (!(psiElement instanceof PsiField)) {
                 continue;
