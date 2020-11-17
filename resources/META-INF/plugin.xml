@@ -1,13 +1,16 @@
 <idea-plugin>
   <id>com.everspring.plugin.swagger-tool</id>
   <name>swagger-annotation-tool</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="xuechangchun007@126.com" url="https://github.com/EverSpring">changchun</vendor>
 
-  <description>springfox-swagger tool,注解转注释，当前只支持model里的</description>
+  <description>springfox-swagger tool,注解转注释，转换model里的，接口上的字段一般比较少，个人觉得没有自动生成的必要</description>
 
   <change-notes><![CDATA[
-      v1.0.1 In the model,transform comment(/** xx */) to springfox-swagger @ApiModelProperty<br>
+      v1.2 In if there is no comment,will translator field first,then generate the annotation<br>
+      v1.2 增加没有注解，自动根据字段名翻译，建议字段名取得易读<br><br>
+      v1.1 In the model,transform comment(/** xx */) to springfox-swagger @ApiModelProperty<br>
+      v1.1 在Model种,把/** xx */注释转换成springfox-swagger的@ApiModelProperty<br>
     ]]>
   </change-notes>
 
@@ -20,14 +23,20 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
+    <applicationService serviceImplementation="com.everspring.service.impl.TranslateService"/>
   </extensions>
 
   <actions>
     <!-- Add your actions here -->
-    <action id="plugin.rightClick" class="com.everspring.action.RightClickTransformAction" text="swagger tool"
-            description="右键转换成@ApiModelProperty">
-      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-    </action>
+      <group id="plugin.swaggerToolGroup" text="swagger-tool" popup="true">
+        <action id="plugin.rightNoTranslate" class="com.everspring.action.NoTranslatorTransformAction" text="转换不翻译"
+                description="右键不翻译转换成@ApiModelProperty">
+        </action>
+        <action id="plugin.rightTranslate" class="com.everspring.action.TranslatorTransformAction" text="转换翻译"
+                description="右键翻译转换成@ApiModelProperty">
+        </action>
+        <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+      </group>
   </actions>
 
 </idea-plugin>

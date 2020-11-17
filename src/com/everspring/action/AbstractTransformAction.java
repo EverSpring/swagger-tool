@@ -1,39 +1,40 @@
 package com.everspring.action;
 
+import com.everspring.service.impl.TranslateService;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.MessageDialogBuilder;
 import com.intellij.psi.*;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ThrowableRunnable;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 
 /**
- * Description： 右键按钮
- * Date： 2020/11/16 10:02
+ * 抽象转换
  *
  * @author changchun.xue
+ * @date 2020/11/17
  */
-public class RightClickTransformAction extends AnAction {
+public abstract class AbstractTransformAction extends AnAction {
 
-    @Override
-    public void actionPerformed(AnActionEvent e) {
+    private TranslateService translatorService = ServiceManager.getService(TranslateService.class);
+
+    public void actionPerformed(AnActionEvent e,Boolean isTranslator) {
         Project project = e.getData(LangDataKeys.PROJECT);
         if (project == null) {
             return;
         }
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         PsiFile psiFile = e.getRequiredData(CommonDataKeys.PSI_FILE);
-        FileType fileType = psiFile.getViewProvider().getVirtualFile().getFileType();
-        if (!"java".equals(fileType.getDefaultExtension())) {
-            MessageDialogBuilder.yesNoCancel("提示", "只能转换java文件").show();
-        }
         //获取java文件
         PsiElement referenceAt = psiFile.findElementAt(editor.getCaretModel().getOffset());
         PsiJavaFile psiJavaFile = PsiTreeUtil.getParentOfType(referenceAt, PsiJavaFile.class);
@@ -48,8 +49,19 @@ public class RightClickTransformAction extends AnAction {
             if (!(everyTypeElement instanceof PsiClass)) {
                 continue;
             }
-            this.generateAnnotation(project, everyTypeElement);
+            this.generateAnnotation(project, everyTypeElement,isTranslator);
             break;
+        }
+    }
+
+    public void update(@NotNull AnActionEvent e) {
+        super.update(e);
+        PsiFile psiFile = e.getRequiredData(CommonDataKeys.PSI_FILE);
+        FileType fileType = psiFile.getViewProvider().getVirtualFile().getFileType();
+        if (!"java".equals(fileType.getDefaultExtension())) {
+            e.getPresentation().setEnabledAndVisible(false);
+        } else {
+            e.getPresentation().setEnabledAndVisible(true);
         }
     }
 
@@ -59,7 +71,7 @@ public class RightClickTransformAction extends AnAction {
      * @param project
      * @param everyTypeElement 具体的class代码element
      */
-    private void generateAnnotation(Project project, PsiElement everyTypeElement) {
+    private void generateAnnotation(Project project, PsiElement everyTypeElement,Boolean isTranslator) {
         PsiElement[] clsEle = everyTypeElement.getChildren();
         for (PsiElement psiElement : clsEle) {
             if (!(psiElement instanceof PsiField)) {
@@ -68,7 +80,7 @@ public class RightClickTransformAction extends AnAction {
             PsiField psiField = (PsiField) psiElement;
             String name = psiField.getName();
             PsiDocComment docComment = psiField.getDocComment();
-            if (docComment != null && docComment.getText() != null && docComment.getText().trim() != "") {
+            if (docComment != null && StringUtils.isNotBlank(docComment.getText().trim())) {
                 boolean hasSwaggerAnnotation = false;
                 PsiAnnotation[] annotations = psiField.getAnnotations();
                 for (PsiAnnotation annotation : annotations) {
@@ -85,24 +97,38 @@ public class RightClickTransformAction extends AnAction {
                     for (PsiElement desc : descriptionElements) {
                         String text = desc.getText();
                         if (text != null && !"".equals(text.trim())) {
-                            try {
-                                WriteCommandAction.writeCommandAction(project).run(
-                                        (ThrowableRunnable<Throwable>) () -> {
-                                            if (psiElement.getContainingFile() == null) {
-                                                return;
-                                            }
-
-                                            // 写入注解
-                                            psiField.getModifierList().addAnnotation(String.format("ApiModelProperty(\"%s\")", text.trim()));
-
-                                        });
-                            } catch (Throwable throwable) {
-                                throwable.printStackTrace();
-                            }
+                            this.write(project, psiElement, psiField, text);
                         }
                     }
                 }
+            } else if(isTranslator){
+                String text = translatorService.translate(name);
+                this.write(project, psiElement, psiField, text);
             }
+        }
+    }
+
+    /**
+     * 注解写进java文件
+     * @param project
+     * @param psiElement
+     * @param psiField
+     * @param text
+     */
+    private void write(Project project, PsiElement psiElement, PsiField psiField, String text) {
+        try {
+            WriteCommandAction.writeCommandAction(project).run(
+                    (ThrowableRunnable<Throwable>) () -> {
+                        if (psiElement.getContainingFile() == null) {
+                            return;
+                        }
+
+                        // 写入注解
+                        psiField.getModifierList().addAnnotation(String.format("ApiModelProperty(\"%s\")", text.trim()));
+
+                    });
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
