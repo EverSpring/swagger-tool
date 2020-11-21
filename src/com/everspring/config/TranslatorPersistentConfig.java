@@ -7,7 +7,7 @@ package com.everspring.config;
  * @author changchun.xue
  * @date 2020/11/17
  */
-public class TranslatorConfiguration {
+public class TranslatorPersistentConfig {
 
     /**
      * 是否翻译
