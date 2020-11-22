@@ -1,6 +1,8 @@
 package com.everspring.view;
 
 import com.everspring.data.DataList;
+import com.everspring.data.WordMapDataModel;
+import com.intellij.openapi.ui.MessageDialogBuilder;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +31,28 @@ public class ListWordMapForm {
             public void actionPerformed(ActionEvent e) {
                 AddWordMapDialog addWordMapDialog = new AddWordMapDialog();
                 addWordMapDialog.show();
+            }
+        });
+        btnDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tbContent.getSelectedRow();
+                WordMapDataModel dataModel = DataList.dataList.get(selectedRow);
+                MessageDialogBuilder.YesNo warnDialog = MessageDialogBuilder.yesNo("删除警告", "你确定删除：" + dataModel.getEn() + "->" + dataModel.getCh());
+                if (warnDialog.isYes()) {
+                    DataList.dataList.remove(selectedRow);
+                    DataList.tableModel.removeRow(selectedRow);
+                }
+            }
+        });
+        resetBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MessageDialogBuilder.YesNo warnDialog = MessageDialogBuilder.yesNo("清除警告", "真的全部清除？");
+                if (warnDialog.isYes()) {
+                    DataList.dataList.clear();
+                    DataList.tableModel.setRowCount(0);
+                }
             }
         });
     }

@@ -58,6 +58,8 @@ public class AddWordMapDialog extends DialogWrapper {
             WordMapDataModel model = new WordMapDataModel(enText, cnText);
             DataList.dataList.add(model);
             DataList.tableModel.addRow(model.convert());
+            fieldEn.setText("");
+            fieldCn.setText("");
         });
         panel.add(btn);
         return panel;
