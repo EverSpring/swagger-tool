@@ -10,6 +10,9 @@ public class WordMapDataModel {
     private String en;
     private String ch;
 
+    public WordMapDataModel() {
+    }
+
     public WordMapDataModel(String en, String ch) {
         this.en = en;
         this.ch = ch;
