@@ -7,14 +7,11 @@
   <description>
     <![CDATA[
     This plugin can help you transform comment(include // or /** */) to springfox annotation.if there is no any comment,
-    it can automatic add annotation by translating the filed name,so you'd better take a canonical name.
+    it can automatic add annotation by translating the filed name,so you'd better take a canonical name.<br>
     Springfox-swagger Tool (springfox-Swagger Tool) In the model,
     the interface on the field is generally relatively few, I personally do not feel the need to automatically generate.
-    Next,it will support custom translation,and generate in controller
-    <br>
-
-    这个插件可以帮助您将注释(包括//或/** */)转换为springfox注释。如果没有任何评论，它可以通过翻译文件名来自动添加注释，所以您最好使用一个规范名称.
-    目前只支持model中的，后期会支持在controller中自动识别接口定义添加注解
+    Next,it will support custom translation,and generate in controller.
+    <br><br><br>
     ]]>
     </description>
 
