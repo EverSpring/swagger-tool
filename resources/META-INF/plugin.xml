@@ -2,9 +2,21 @@
   <id>com.everspring.plugin.swagger-tool</id>
   <name>swagger-annotation-tool</name>
   <version>1.2.1</version>
-  <vendor email="xuechangchun007@126.com" url="https://github.com/EverSpring">EverSpring</vendor>
+  <vendor email="xuechangchun007@gmail.com" url="https://github.com/EverSpring/swagger-tool">Ever Spring</vendor>
 
-  <description>springfox-swagger tool,注解转注释，转换model里的，接口上的字段一般比较少，个人觉得没有自动生成的必要</description>
+  <description>
+    <![CDATA[
+    This plugin can help you transform comment(include // or /** */) to springfox annotation.if there is no any comment,
+    it can automatic add annotation by translating the filed name,so you'd better take a canonical name.
+    Springfox-swagger Tool (springfox-Swagger Tool) In the model,
+    the interface on the field is generally relatively few, I personally do not feel the need to automatically generate.
+    Next,it will support custom translation,and generate in controller
+    <br>
+
+    这个插件可以帮助您将注释(包括//或/** */)转换为springfox注释。如果没有任何评论，它可以通过翻译文件名来自动添加注释，所以您最好使用一个规范名称.
+    目前只支持model中的，后期会支持在controller中自动识别接口定义添加注解
+    ]]>
+    </description>
 
   <change-notes><![CDATA[
       v1.2.1 support transform single line comment to @ApiModelProperty<br>
