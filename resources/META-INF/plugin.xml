@@ -11,7 +11,14 @@
     Springfox-swagger Tool (springfox-Swagger Tool) In the model,
     the interface on the field is generally relatively few, I personally do not feel the need to automatically generate.
     Next,it will support custom translation,and generate in controller.
-    <br><br><br>
+    <br>
+
+    <b>usage:</b>
+    right click,choose "swagger-tool",then choose the transform method.
+    <b>使用方法：</b>
+    只有在java文件中swagger-tool才可用。右键swagger-tool，选择转换方式<br>
+    <em>转换不翻译</em>：如果有注释，直接采用注释，没有注释则不生成
+    <em>转换翻译</em>：如果有注释，直接采用注释，没有注释则翻译后生成注释
     ]]>
     </description>
 
