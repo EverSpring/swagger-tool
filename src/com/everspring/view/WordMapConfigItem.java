@@ -1,6 +1,5 @@
 package com.everspring.view;
 
-import com.everspring.config.WordMapConfigComponent;
 import com.everspring.data.DataList;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
@@ -17,8 +16,6 @@ import javax.swing.*;
  * @author changchun.xue
  */
 public class WordMapConfigItem implements SearchableConfigurable {
-
-    private WordMapConfigComponent wordMapConfigComponent = WordMapConfigComponent.getInstance();
 
     @Override
     public @NlsContexts.ConfigurableName String getDisplayName() {

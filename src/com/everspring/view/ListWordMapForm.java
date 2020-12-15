@@ -1,15 +1,14 @@
 package com.everspring.view;
 
 import com.everspring.data.DataList;
-import com.everspring.data.WordMapDataModel;
 import com.intellij.openapi.ui.MessageDialogBuilder;
+import com.intellij.openapi.ui.Messages;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Description： 映射配置显示
@@ -39,12 +38,14 @@ public class ListWordMapForm {
         btnDel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = tbContent.getSelectedRow();
-                WordMapDataModel dataModel = DataList.dataList.get(selectedRow);
-                MessageDialogBuilder.YesNo warnDialog = MessageDialogBuilder.yesNo("删除警告", "你确定删除：" + dataModel.getEn() + "->" + dataModel.getCh());
-                if (warnDialog.isYes()) {
-                    DataList.dataList.remove(selectedRow);
-                    DataList.tableModel.removeRow(selectedRow);
+                int[] selectedRows = tbContent.getSelectedRows();
+                if (selectedRows.length == 0) {
+                    Messages.showErrorDialog("请先选择要删除的行", "提醒");
+                    return;
+                }
+                for (int i = 0; i < selectedRows.length; i++) {
+                    DataList.dataList.remove(i);
+                    DataList.tableModel.removeRow(i);
                 }
             }
         });
@@ -58,20 +59,19 @@ public class ListWordMapForm {
                 }
             }
         });
-        tbContent.getModel().addTableModelListener(new TableModelListener() {
+        tbContent.addMouseListener(new MouseAdapter() {
             @Override
-            public void tableChanged(TableModelEvent e) {
-                DataList.isChange = true;
-                int firstRow = e.getFirstRow();
-                int column = e.getColumn();
-                String newValue = (String)tbContent.getModel().getValueAt(firstRow, column);
-                WordMapDataModel wordMapDataModel = DataList.dataList.get(firstRow);
-                if (column == 0) {
-                    //en
-                    wordMapDataModel.setEn(newValue);
-                } else if (column == 1) {
-                    //ch
-                    wordMapDataModel.setCh(newValue);
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2) {
+                    int row =((JTable)e.getSource()).rowAtPoint(e.getPoint());
+                    String en = (String)tbContent.getModel().getValueAt(row, 0);
+                    String cn = (String)tbContent.getModel().getValueAt(row, 1);
+                    AddWordMapDialog addWordMapDialog = new AddWordMapDialog();
+                    addWordMapDialog.setEn(en);
+                    addWordMapDialog.setCn(cn);
+                    addWordMapDialog.setUpdateRow(row);
+                    addWordMapDialog.show();
                 }
             }
         });

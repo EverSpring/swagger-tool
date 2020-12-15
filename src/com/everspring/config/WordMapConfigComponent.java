@@ -4,7 +4,6 @@ import com.everspring.data.DataList;
 import com.everspring.data.WordMapDataModel;
 import com.everspring.data.WordMapStoreModel;
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.NotNull;
@@ -22,11 +21,6 @@ import java.util.stream.Collectors;
  */
 @State(name = "wordMap", storages = {@Storage("$APP_CONFIG$/wordMap.xml")})
 public class WordMapConfigComponent implements PersistentStateComponent<WordMapStoreModel> {
-
-    public static WordMapConfigComponent getInstance() {
-        return ServiceManager.getService(WordMapConfigComponent.class);
-    }
-
 
     /**
      * IDEA关闭时，将内存中配置持久化到xml中
@@ -51,17 +45,18 @@ public class WordMapConfigComponent implements PersistentStateComponent<WordMapS
             dataModelList.forEach(model -> {
                 DataList.dataList.add(new WordMapDataModel(model.getEn(), model.getCh()));
                 DataList.tableModel.addRow(model.convert());
+                DataList.wordMap.put(model.getEn(), model.getCh());
             });
         }
     }
 
     @Override
     public void noStateLoaded() {
-
+        System.out.println("noStateLoaded");
     }
 
     @Override
     public void initializeComponent() {
-
+        System.out.println("initializeComponent");
     }
 }

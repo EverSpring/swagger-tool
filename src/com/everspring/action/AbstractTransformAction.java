@@ -1,5 +1,7 @@
 package com.everspring.action;
 
+import com.everspring.config.WordMapConfigComponent;
+import com.everspring.data.DataList;
 import com.everspring.service.impl.TranslateService;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -27,6 +29,10 @@ import org.jetbrains.annotations.NotNull;
 public abstract class AbstractTransformAction extends AnAction {
 
     private TranslateService translatorService = ServiceManager.getService(TranslateService.class);
+    /**
+     * 必须手动显示调用一次，不然idea启动时不会调用loadState，要打开设置界面时才加载
+     */
+    final WordMapConfigComponent instance = ServiceManager.getService(WordMapConfigComponent.class);
 
     public void actionPerformed(AnActionEvent e,Boolean isTranslator) {
         Project project = e.getData(LangDataKeys.PROJECT);
@@ -113,9 +119,16 @@ public abstract class AbstractTransformAction extends AnAction {
                     }
                     if (StringUtils.isNotBlank(comment)) {
                         this.write(project, psiElement, psiField, comment.trim());
-                    } else if (isTranslator) {
-                        String text = translatorService.translate(name);
-                        this.write(project, psiElement, psiField, text);
+                    } else {
+                        String text = "";
+                        if (DataList.wordMap.containsKey(name)) {
+                            text = DataList.wordMap.get(name);
+                        } else if (isTranslator)  {
+                            text = translatorService.translate(name);
+                        }
+                        if (StringUtils.isNotBlank(text)) {
+                            this.write(project, psiElement, psiField, text);
+                        }
                     }
                 }
             }
