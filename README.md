@@ -6,7 +6,8 @@ springfox-swagger工具，目的是减少swagger注解生成。当前只支持ID
 1、把model中的/**xxx*/注解转换成@ApiModelProperty("xxx")
 
 #### 安装教程
-##### 方法一：在release中下载
+##### 方法一：在jetbrain market中搜索swagger-annotation-tool安装
+##### 方法二：在release中下载
 下载地址：https://gitee.com/EverSpring007/swagger-tool/releases/v1.1
 ##### 方法二：自己编译生成jar文件
 1.  导入IDEA
