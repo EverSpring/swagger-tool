@@ -5,6 +5,9 @@ import com.everspring.data.WordMapDataModel;
 import com.intellij.openapi.ui.MessageDialogBuilder;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -55,9 +58,34 @@ public class ListWordMapForm {
                 }
             }
         });
+        tbContent.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                DataList.isChange = true;
+                int firstRow = e.getFirstRow();
+                int column = e.getColumn();
+                String newValue = (String)tbContent.getModel().getValueAt(firstRow, column);
+                WordMapDataModel wordMapDataModel = DataList.dataList.get(firstRow);
+                if (column == 0) {
+                    //en
+                    wordMapDataModel.setEn(newValue);
+                } else if (column == 1) {
+                    //ch
+                    wordMapDataModel.setCh(newValue);
+                }
+            }
+        });
     }
 
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+
+    public JTable getTbContent() {
+        return tbContent;
+    }
+
+    public void setTbContent(JTable tbContent) {
+        this.tbContent = tbContent;
     }
 }

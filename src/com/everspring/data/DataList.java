@@ -16,4 +16,6 @@ public class DataList {
     private static final String[] tableHeader = {"英文","中文"};
 
     public static DefaultTableModel tableModel = new DefaultTableModel(null, tableHeader);
+
+    public static boolean isChange;
 }

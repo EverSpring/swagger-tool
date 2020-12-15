@@ -41,7 +41,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
-    <applicationService serviceImplementation="com.everspring.config.WordMapConfigComponent" order="first" />
+    <applicationService serviceInterface="com.everspring.config.WordMapConfigComponent" serviceImplementation="com.everspring.config.WordMapConfigComponent" order="first" />
     <applicationService serviceImplementation="com.everspring.service.impl.TranslateService"/>
     <applicationConfigurable displayName="swagger-tool" instance="com.everspring.view.WordMapConfigItem">
     </applicationConfigurable>

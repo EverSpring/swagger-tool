@@ -60,6 +60,7 @@ public class AddWordMapDialog extends DialogWrapper {
             DataList.tableModel.addRow(model.convert());
             fieldEn.setText("");
             fieldCn.setText("");
+            DataList.isChange = true;
         });
         panel.add(btn);
         return panel;
