@@ -1,14 +1,18 @@
 <idea-plugin>
   <id>com.everspring.plugin.swagger-tool</id>
   <name>swagger-annotation-tool</name>
-  <version>1.2.1</version>
+  <version>1.4</version>
   <vendor email="xuechangchun007@gmail.com" url="https://github.com/EverSpring/swagger-tool">Ever Spring</vendor>
 
   <description>
     <![CDATA[
-    Now: This plugin support custom english mapping to chinese
-    This plugin can help you transform comment(include // or /** */) to springfox annotation.if there is no any comment,
-    it can automatic add annotation by translating the filed name,so you'd better take a canonical name.<br>
+    This plugin can
+    (1) help you transform comment(include // or /** */) to springfox annotation.if there is no any comment,
+    it can automatic add annotation by translating the filed name,so you'd better take a canonical name.And You can custom english
+    mapping to chinese by yourself
+    <br>
+    (2) generate object setter function
+    <br>
     Springfox-swagger Tool (springfox-Swagger Tool) In the model,
     the interface on the field is generally relatively few, I personally do not feel the need to automatically generate.
     Next,it will change the "swagger-tool" position，it will generate by Alt+Enter(the same with setter/getter)
@@ -16,16 +20,21 @@
 
     <b>usage:</b>
     right click,choose "swagger-tool",then choose the transform method.
-    <b>使用方法：</b>
-    只有在java文件中swagger-tool才可用。右键swagger-tool，选择转换方式<br>
-    <em>转换不翻译</em>：如果有注释，直接采用注释，没有注释则选用自定义的配置，如果自定义没有就不生成注解
-    <em>转换翻译</em>：如果有自定义转换配置，则采用自定义的，没有就自定义就直接采用注释，没有注释则翻译后生成注释
+    <br>
+    <b>功能、使用方法：</b>
+    <br>
+    只有在java文件中swagger-tool才可用。右键swagger-tool，选择转换方式、一键生成set实现<br>
+    <li>转换不翻译：如果有注释，直接采用注释，没有注释则选用自定义的配置，如果自定义没有就不生成注解</li>
+    <li>转换翻译：如果有自定义转换配置，则采用自定义的，没有就自定义就直接采用注释，没有注释则翻译后生成注释</li>
+    <li>生成set实现: 自动生成object的set实现</li>
     ]]>
     </description>
 
   <change-notes><![CDATA[
-      v1.3 Support custom English mapping to Chinese
-      v1.3 支持自定义配置英文映射中文
+      v1.4 Support generate set function<br>
+      v1.4 支持一键生成对象的set实现<br>
+      v1.3 Support custom English mapping to Chinese<br>
+      v1.3 支持自定义配置英文映射中文<br>
       v1.2.1 support transform single line comment to @ApiModelProperty<br>
       v1.2.1 添加当行注解转换<br><br>
       v1.2 In if there is no comment,will translator field first,then generate the annotation<br>
@@ -58,6 +67,9 @@
         </action>
         <action id="plugin.rightTranslate" class="com.everspring.action.TranslatorTransformAction" text="转换翻译"
                 description="右键翻译转换成@ApiModelProperty">
+        </action>
+        <action id="plugin.setter" class="com.everspring.action.SetAction" text="生成set"
+                description="批量生成类的set方法">
         </action>
         <add-to-group group-id="EditorPopupMenu" anchor="first"/>
       </group>

@@ -52,11 +52,11 @@ public class WordMapConfigComponent implements PersistentStateComponent<WordMapS
 
     @Override
     public void noStateLoaded() {
-        System.out.println("noStateLoaded");
+
     }
 
     @Override
     public void initializeComponent() {
-        System.out.println("initializeComponent");
+
     }
 }
