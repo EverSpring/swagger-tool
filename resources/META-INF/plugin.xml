@@ -7,14 +7,16 @@
   <description>
     <![CDATA[
     <a href="https://gitee.com/EverSpring007/swagger-tool">gitee</a> | <a href="https://github.com/EverSpring/swagger-tool">github</a>
+    <br>
     This plugin can
-    (1) help you transform comment(include // or /** */) to springfox annotation.if there is no any comment,
+    <br>
+    (1) <b>help you transform comment</b>(include // or /** */) to springfox annotation.if there is no any comment,
     it can automatic add annotation by translating the filed name,so you'd better take a canonical name.And You can custom english
     mapping to chinese by yourself
     <br>
     <img src="https://images.gitee.com/uploads/images/2020/1223/233320_9979316e_68525.gif" />
     <br>
-    (2) generate object setter function
+    (2) <b>generate object setter function</b>
     <br>
     <img src="https://images.gitee.com/uploads/images/2020/1229/101725_e78f5e1d_68525.gif" />
     <br>
