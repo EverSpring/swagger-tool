@@ -8,7 +8,7 @@ springfox-swagger工具，目的是减少swagger注解生成。当前只支持ID
 1、把model中的/**xxx*/注解转换成@ApiModelProperty("xxx") ，可以自定义转换词组，也可以使用翻译   
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/1223/233320_9979316e_68525.gif "change.gif")  
 2、一键生成对象的set方法  
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1223/233336_5f2a17ee_68525.gif "set.gif")  
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1229/101725_e78f5e1d_68525.gif "set.gif")
 
 #### 安装教程
 ##### 方法一：在IDEA marketplace中搜索swagger-annotation-tool安装。IDEA-->settings-->Marketplace中搜索swagger-annotation-tool
