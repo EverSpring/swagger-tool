@@ -1,17 +1,22 @@
 <idea-plugin>
   <id>com.everspring.plugin.swagger-tool</id>
   <name>swagger-annotation-tool</name>
-  <version>1.4</version>
+  <version>1.4.1</version>
   <vendor email="xuechangchun007@gmail.com" url="https://github.com/EverSpring/swagger-tool">Ever Spring</vendor>
 
   <description>
     <![CDATA[
+    <a href="https://gitee.com/EverSpring007/swagger-tool">gitee</a> | <a href="https://github.com/EverSpring/swagger-tool">github</a>
     This plugin can
     (1) help you transform comment(include // or /** */) to springfox annotation.if there is no any comment,
     it can automatic add annotation by translating the filed name,so you'd better take a canonical name.And You can custom english
     mapping to chinese by yourself
     <br>
+    <img src="https://images.gitee.com/uploads/images/2020/1223/233320_9979316e_68525.gif" />
+    <br>
     (2) generate object setter function
+    <br>
+    <img src="https://images.gitee.com/uploads/images/2020/1229/101725_e78f5e1d_68525.gif" />
     <br>
     Springfox-swagger Tool (springfox-Swagger Tool) In the model,
     the interface on the field is generally relatively few, I personally do not feel the need to automatically generate.
@@ -26,11 +31,13 @@
     只有在java文件中swagger-tool才可用。右键swagger-tool，选择转换方式、一键生成set实现<br>
     <li>转换不翻译：如果有注释，直接采用注释，没有注释则选用自定义的配置，如果自定义没有就不生成注解</li>
     <li>转换翻译：如果有自定义转换配置，则采用自定义的，没有就自定义就直接采用注释，没有注释则翻译后生成注释</li>
-    <li>生成set实现: 自动生成object的set实现</li>
+    <li>生成set实现: 自动一键生成、选择性生成object的set实现</li>
     ]]>
     </description>
 
   <change-notes><![CDATA[
+      v1.4.1 support generate by choosing the set method<br>
+      v1.4.1 支持选择性生成set方法<br>
       v1.4 Support generate set function<br>
       v1.4 支持一键生成对象的set实现<br>
       v1.3 Support custom English mapping to Chinese<br>
@@ -45,7 +52,7 @@
   </change-notes>
 
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="173.0" until-build="202.7660.26"/>
+  <idea-version since-build="173.0"/>
 
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
