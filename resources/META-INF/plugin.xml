@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.everspring.plugin.swagger-tool</id>
   <name>swagger-annotation-tool</name>
-  <version>1.4.2</version>
+  <version>1.5</version>
   <vendor email="xuechangchun007@gmail.com" url="https://github.com/EverSpring/swagger-tool">Ever Spring</vendor>
 
   <description>
@@ -20,24 +20,32 @@
     <br>
     <img src="https://images.gitee.com/uploads/images/2020/1229/101725_e78f5e1d_68525.gif" />
     <br>
+    (3) <b>copy SpringMvc/Feign interface url</b>
+    <br>
+    <img src="https://images.gitee.com/uploads/images/2021/0223/104520_2097e9eb_68525.png "屏幕截图.png"" />
+    <br>
     Springfox-swagger Tool (springfox-Swagger Tool) In the model,
     the interface on the field is generally relatively few, I personally do not feel the need to automatically generate.
     Next,it will change the "swagger-tool" position，it will delete right click(the same with setter/getter)
     <br>
 
     <b>usage:</b>
-    Alt+Insert(right click,choose "swagger-tool",),then choose the transform method.
+    <li>Alt+Insert(right click,choose "swagger-tool",),then choose the transform method.<br></li>
+    <li>Alt+Shift+U,copy SpringMVC/Feign interface full url</li>
     <br>
     <b>功能、使用方法：</b>
     <br>
-    只有在java文件中swagger-tool才可用。Alt+Insert(或者右键swagger-tool)，选择转换方式、一键生成set实现<br>
-    <li>转换不翻译：如果有注释，直接采用注释，没有注释则选用自定义的配置，如果自定义没有就不生成注解</li>
-    <li>转换翻译：如果有自定义转换配置，则采用自定义的，没有就自定义就直接采用注释，没有注释则翻译后生成注释</li>
-    <li>生成set实现: 自动一键生成、选择性生成object的set实现</li>
+    <li>转换不翻译(Alt+Insert)：如果有注释，直接采用注释，没有注释则选用自定义的配置，如果自定义没有就不生成注解</li>
+    <li>转换翻译(Alt+Insert)：如果有自定义转换配置，则采用自定义的，没有就自定义就直接采用注释，没有注释则翻译后生成注释</li>
+    <li>生成set实现(Alt+Insert): 自动一键生成、选择性生成object的set实现</li>
+    <li>复制完整的restful url(Alt+Shift+U)：在接口地方可以复制当前controller的地址+接口地址，也可以右键-copy/paste specical-Copy Full Url复制</li>
+    (只有在java文件中swagger-tool才可用。Alt+Insert(或者右键swagger-tool)，选择转换方式、一键生成set实现<br>)
     ]]>
     </description>
 
   <change-notes><![CDATA[
+      v1.5 support copy spring controller full restful url<br>
+      v1.5 支持快捷键alt+shift+U拷贝spring web接口中完整的url,支持SpringMvc和Feign<br>
       v1.4.2 support generate by Alt+Insert<br>
       v1.4.2 支持快捷键Alt+Insert生成set方法<br>
       v1.4.1 support generate by choosing the set method<br>
@@ -86,6 +94,11 @@
         <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         <add-to-group group-id="GenerateGroup" anchor="last"/>
       </group>
+    <action id="plugin.restfulUrlCopy" class="com.everspring.action.CopyFullUrlAction" text="Copy Full Url"
+            description="复制restful完整url">
+      <add-to-group group-id="Copy.Paste.Special" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="shift alt U"/>
+    </action>
   </actions>
 
 </idea-plugin>
