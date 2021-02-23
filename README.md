@@ -9,7 +9,7 @@ springfox-swagger工具，目的是减少swagger注解生成。当前只支持ID
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/1223/233320_9979316e_68525.gif "change.gif")  
 2、 **一键生成对象的set方法**   
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/1229/101725_e78f5e1d_68525.gif "set.gif")  
-3、 **一键copy完整的restful地址，支持SpringMvc和Feign** 
+3、 **一键copy完整的restful地址，支持SpringMvc和Feign**  
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0223/104520_2097e9eb_68525.png "屏幕截图.png")
 
 #### 安装教程
