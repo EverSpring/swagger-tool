@@ -14,15 +14,15 @@
     it can automatic add annotation by translating the filed name,so you'd better take a canonical name.And You can custom english
     mapping to chinese by yourself
     <br>
-    <img src="https://images.gitee.com/uploads/images/2020/1223/233320_9979316e_68525.gif" />
+    <img style="width: 510px;height: 430px" src="https://images.gitee.com/uploads/images/2020/1223/233320_9979316e_68525.gif" />
     <br>
     (2) <b>generate object setter function</b>
     <br>
-    <img src="https://images.gitee.com/uploads/images/2020/1229/101725_e78f5e1d_68525.gif" />
+    <img style="width: 510px;height: 430px" src="https://images.gitee.com/uploads/images/2020/1229/101725_e78f5e1d_68525.gif" />
     <br>
     (3) <b>copy SpringMvc/Feign interface url</b>
     <br>
-    <img src="https://images.gitee.com/uploads/images/2021/0223/104520_2097e9eb_68525.png "屏幕截图.png"" />
+    <img style="width: 510px;height: 430px" src="https://images.gitee.com/uploads/images/2021/0223/104520_2097e9eb_68525.png "屏幕截图.png"" />
     <br>
     Springfox-swagger Tool (springfox-Swagger Tool) In the model,
     the interface on the field is generally relatively few, I personally do not feel the need to automatically generate.
