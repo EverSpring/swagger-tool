@@ -1,7 +1,8 @@
-# swagger-tool
+# 别被标题误导，综合性工具
 
 #### 介绍
-springfox-swagger工具，目的是减少swagger注解生成。当前只支持IDEA。本来打算直接修改springfox源码，但是编译后的class文件没有注释，要实现需要把
+swagger生成、一键生成对象的set方法、一键copy完整的restful地址。
+刚开始只定义为springfox-swagger工具，目的是减少swagger注解生成。当前只支持IDEA。本来打算直接修改springfox源码，但是编译后的class文件没有注释，要实现需要把
 源码打进包里，这种方式个人觉得不妥，所以改为了自动生成@ApiModelProperty的方案  
 
 #### 功能
